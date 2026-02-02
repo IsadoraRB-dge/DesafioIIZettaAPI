@@ -12,6 +12,7 @@ namespace DesafioIIZetta.API.Models;
 public partial class ClienteLivroEmprestimo
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     public int IdCliente { get; set; }
@@ -25,7 +26,7 @@ public partial class ClienteLivroEmprestimo
     public DateTime DataDevolucaoPrevista { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime DataDevolucaoReal { get; set; }
+    public DateTime? DataDevolucaoReal { get; set; }
 
     [ForeignKey("IdCliente")]
     [InverseProperty("ClienteLivroEmprestimos")]

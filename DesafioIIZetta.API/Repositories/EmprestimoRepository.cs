@@ -17,11 +17,13 @@ namespace DesafioIIZetta.API.Repositories{
                 .ToListAsync();
         }
         public async Task RegistrarEmprestimoAsync(ClienteLivroEmprestimo emprestimo){
-           
             var livro = await _context.Livros.FindAsync(emprestimo.IdLivro);
 
             if (livro != null && livro.QuantidadeEstoqueLivro > 0){
                 livro.QuantidadeEstoqueLivro -= 1;
+                if (emprestimo.DataEmprestimo == DateTime.MinValue) 
+                    emprestimo.DataEmprestimo = DateTime.Now;
+
                 await _context.ClienteLivroEmprestimos.AddAsync(emprestimo);
                 await _context.SaveChangesAsync();
             }else{
@@ -31,16 +33,28 @@ namespace DesafioIIZetta.API.Repositories{
         public async Task RegistrarDevolucaoAsync(int id){
             var emprestimo = await _context.ClienteLivroEmprestimos.FindAsync(id);
 
-            if (emprestimo != null){
+        
+            if (emprestimo != null && emprestimo.DataDevolucaoReal == null){
                 var livro = await _context.Livros.FindAsync(emprestimo.IdLivro);
-                if (livro != null) livro.QuantidadeEstoqueLivro += 1;
-                _context.ClienteLivroEmprestimos.Remove(emprestimo);
+                if (livro != null){
+                    livro.QuantidadeEstoqueLivro += 1; 
+                }
+
+                emprestimo.DataDevolucaoReal = DateTime.Now;
+
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task<ClienteLivroEmprestimo> BuscarPorIdAsync(int id){
-            return await _context.ClienteLivroEmprestimos.FindAsync(id);
+            return await _context.ClienteLivroEmprestimos
+                .Include(e => e.IdClienteNavigation)
+                .Include(e => e.IdLivroNavigation)
+                .FirstOrDefaultAsync(e => e.Id == id); 
+        }
+        public async Task AtualizarAsync(ClienteLivroEmprestimo emprestimo){
+            _context.Entry(emprestimo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
