@@ -10,5 +10,7 @@ namespace DesafioIIZetta.API.Interfaces{
         Task RegistrarEmprestimoAsync(ClienteLivroEmprestimo emprestimo);
 
         Task RegistrarDevolucaoAsync(int id);
+
+        Task AtualizarAsync(ClienteLivroEmprestimo emprestimo);
     }
 }

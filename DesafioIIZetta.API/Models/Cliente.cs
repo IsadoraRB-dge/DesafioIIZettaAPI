@@ -12,6 +12,7 @@ namespace DesafioIIZetta.API.Models;
 public partial class Cliente
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdCliente { get; set; }
 
     [Required]

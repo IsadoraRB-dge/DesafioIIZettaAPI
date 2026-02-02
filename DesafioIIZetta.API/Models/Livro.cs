@@ -12,6 +12,7 @@ namespace DesafioIIZetta.API.Models;
 public partial class Livro
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdLivro { get; set; }
 
     [Required]
