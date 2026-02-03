@@ -1,4 +1,6 @@
-﻿using DesafioIIZetta.API.Interfaces;
+﻿using AutoMapper;
+using DesafioIIZetta.API.DTOs.Emprestimo;
+using DesafioIIZetta.API.Interfaces;
 using DesafioIIZetta.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,18 +9,21 @@ namespace DesafioIIZetta.API.Controllers{
     [ApiController]
     public class EmprestimoController : ControllerBase{
         private readonly IEmprestimoRepo _emprestimoRepo;
+        private readonly IMapper _mapper;
 
-        public EmprestimoController(IEmprestimoRepo emprestimoRepo){
+        public EmprestimoController(IEmprestimoRepo emprestimoRepo, IMapper mapper)
+        {
             _emprestimoRepo = emprestimoRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClienteLivroEmprestimo>>> GetEmprestimo(){
+        public async Task<ActionResult<IEnumerable<EmprestimoExibicaoDTO>>> GetEmprestimo(){
             var lista = await _emprestimoRepo.ListarTodosAsync();
-            return Ok(lista);
+            return Ok(_mapper.Map<IEnumerable<EmprestimoExibicaoDTO>>(lista));
         }
 
-      
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ClienteLivroEmprestimo>> GetEmprestimo(int id){
             var emprestimo = await _emprestimoRepo.BuscarPorIdAsync(id);
@@ -27,42 +32,38 @@ namespace DesafioIIZetta.API.Controllers{
             return Ok(emprestimo);
         }
 
-   
+
         [HttpPost]
-        public async Task<ActionResult> PostEmprestimo(ClienteLivroEmprestimo emprestimo){
+        public async Task<ActionResult> PostEmprestimo(EmprestimoAdicionarDTO dto){
             try{
+                var emprestimo = _mapper.Map<ClienteLivroEmprestimo>(dto);
                 await _emprestimoRepo.RegistrarEmprestimoAsync(emprestimo);
-                return Ok("Empréstimo registrado com sucesso! O estoque do livro foi atualizado.");
+                return Ok(new { mensagem = "Empréstimo registrado com sucesso!" });
             }catch (Exception ex){
                 return BadRequest(new { mensagem = ex.Message });
             }
         }
 
-        [HttpPut("atualizar-datas/{id}")]
-        public async Task<IActionResult> AtualizarDatas(int id, [FromBody] DatasEmprestimoDTO datas){
+        [HttpPut("renovar/{id}")]
+        public async Task<IActionResult> RenovarEmprestimo(int id, [FromBody] int novosDias){
             var emprestimo = await _emprestimoRepo.BuscarPorIdAsync(id);
             if (emprestimo == null) return NotFound("Empréstimo não encontrado.");
 
-            emprestimo.DataDevolucaoPrevista = datas.NovaDataPrevista;
+            if (emprestimo.DataDevolucaoReal != null)
+                return BadRequest("Não é possível renovar um livro que já foi devolvido.");
+            emprestimo.DataDevolucaoPrevista = emprestimo.DataDevolucaoPrevista.AddDays(novosDias);
 
-            if (emprestimo.DataDevolucaoReal == null && datas.NovaDataReal != null){
-                await _emprestimoRepo.RegistrarDevolucaoAsync(id);
-                return Ok("Devolução registrada e estoque atualizado!");
-            }
-
-            emprestimo.DataDevolucaoReal = datas.NovaDataReal;
             await _emprestimoRepo.AtualizarAsync(emprestimo);
-
-            return Ok("Datas atualizadas com sucesso.");
+            return Ok($"Nova data de devolução: {emprestimo.DataDevolucaoPrevista:dd/MM/yyyy}");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DevolverLivro(int id){
             var existe = await _emprestimoRepo.BuscarPorIdAsync(id);
-            if (existe == null) return NotFound("ID de empréstimo inválido.");
+            if (existe == null) return NotFound("Empréstimo não encontrado.");
 
             await _emprestimoRepo.RegistrarDevolucaoAsync(id);
-            return Ok("Devolução realizada com sucesso! O livro retornou ao estoque.");
+            return Ok("Devolução realizada e estoque atualizado!");
         }
     }
 

@@ -1,4 +1,7 @@
-﻿using DesafioIIZetta.API.Interfaces;
+﻿
+using AutoMapper;
+using DesafioIIZetta.API.DTOs.Livro;
+using DesafioIIZetta.API.Interfaces;
 using DesafioIIZetta.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,45 +10,59 @@ namespace DesafioIIZetta.API.Controllers{
     [ApiController]
     public class LivroController : ControllerBase{
         private readonly ILivroRepo _livroRepo;
+        private readonly IMapper _mapper;
 
-        public LivroController(ILivroRepo livroRepo){
+        public LivroController(ILivroRepo livroRepo, IMapper mapper){
             _livroRepo = livroRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Livro>>> GetLivro(){
+        public async Task<ActionResult<IEnumerable<LivroExibicaoDTO>>> GetLivro(){
             var livros = await _livroRepo.ListarTodosAsync();
-            return Ok(livros);
+            return Ok(_mapper.Map<IEnumerable<LivroExibicaoDTO>>(livros));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Livro>> GetLivro(int id){
+        public async Task<ActionResult<LivroExibicaoDTO>> GetLivro(int id){
             var livro = await _livroRepo.BuscarPorIdAsync(id);
 
             if (livro == null){
                 return NotFound("Livro não encontrado.");
             }
 
-            return Ok(livro);
+            return Ok(_mapper.Map<LivroExibicaoDTO>(livro));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Livro>> PostLivro(Livro livro){
+        public async Task<ActionResult<LivroExibicaoDTO>> PostLivro(LivroAdicionarDTO livroDto){
+
+            var livro = _mapper.Map<Livro>(livroDto);
+
             await _livroRepo.AdicionarAsync(livro);
-            return CreatedAtAction(nameof(GetLivro), new { id = livro.IdLivro }, livro);
+            var retornoDto = _mapper.Map<LivroExibicaoDTO>(livro);
+
+            return CreatedAtAction(nameof(GetLivro), new { id = livro.IdLivro }, retornoDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLivro(int id, Livro livro){
-            if (id != livro.IdLivro){
+        public async Task<IActionResult> PutLivro(int id, LivroAtualizarDTO livroDto){
+            if (id != livroDto.Id){
                 return BadRequest("O ID enviado não corresponde ao ID do objeto.");
             }
 
-            await _livroRepo.AtualizarAsync(livro);
+            var livroBanco = await _livroRepo.BuscarPorIdAsync(id);
+            if (livroBanco == null){
+                return NotFound("Livro não encontrado.");
+            }
+
+            _mapper.Map(livroDto, livroBanco);
+
+            await _livroRepo.AtualizarAsync(livroBanco);
             return NoContent();
         }
 
- 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLivro(int id){
             var livro = await _livroRepo.BuscarPorIdAsync(id);
