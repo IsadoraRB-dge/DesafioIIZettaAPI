@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
-using DesafioIIZetta.API.Models;
-using DesafioIIZetta.API.DTOs.Cliente;
+using DesafioIIZetta.API.DTOs.Biblioteca.Cliente;
+using DesafioIIZetta.API.DTOs.Biblioteca.Emprestimo;
+using DesafioIIZetta.API.DTOs.GestaoTarefas.Tarefa;
+using DesafioIIZetta.API.DTOs.GestaoTarefas.Usuario;
 using DesafioIIZetta.API.DTOs.Livro;
-using DesafioIIZetta.API.DTOs.Emprestimo;
+using DesafioIIZetta.API.Models;
+using DesafioIIZetta.API.Models.Biblioteca;
+using DesafioIIZetta.API.Models.GestaoTarefas;
 
 namespace DesafioIIZetta.API.Mappings
 {
@@ -10,7 +14,7 @@ namespace DesafioIIZetta.API.Mappings
     {
         public MappingProfile()
         {
-            // SAÍDA (GETs)
+            // Saida Cliente (GETs)
             CreateMap<Cliente, ClienteExibicaoDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdCliente))
                 .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.NomeCliente))
@@ -24,7 +28,7 @@ namespace DesafioIIZetta.API.Mappings
                 .ForMember(dest => dest.Telefone, opt => opt.MapFrom(src => src.TelefoneCliente))
                 .ForMember(dest => dest.Endereco, opt => opt.MapFrom(src => src.EnderecoCliente));
 
-            // ENTRADA (POST e PUT)
+            // Entrada (POST e PUT)
             CreateMap<ClienteAdicionarDTO, Cliente>()
                 .ForMember(dest => dest.NomeCliente, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(dest => dest.EmailCliente, opt => opt.MapFrom(src => src.Email))
@@ -41,21 +45,20 @@ namespace DesafioIIZetta.API.Mappings
                 .ForMember(dest => dest.EnderecoCliente, opt => opt.MapFrom(src => src.Endereco));
 
 
-            // SAÍDA (GET)
+            // Saida Livro (GET)
             CreateMap<Livro, LivroExibicaoDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdLivro))
                 .ForMember(dest => dest.Titulo, opt => opt.MapFrom(src => src.TituloLivro))
                 .ForMember(dest => dest.Autor, opt => opt.MapFrom(src => src.AutorLivro))
                 .ForMember(dest => dest.Estoque, opt => opt.MapFrom(src => src.QuantidadeEstoqueLivro));
 
-            // ENTRADA (POST)
+            // Entrada (POST PUT)
             CreateMap<LivroAdicionarDTO, Livro>()
                 .ForMember(dest => dest.TituloLivro, opt => opt.MapFrom(src => src.Titulo))
                 .ForMember(dest => dest.AutorLivro, opt => opt.MapFrom(src => src.Autor))
                 .ForMember(dest => dest.AnoPublicacaoLivro, opt => opt.MapFrom(src => src.Ano))
                 .ForMember(dest => dest.QuantidadeEstoqueLivro, opt => opt.MapFrom(src => src.Estoque));
 
-            // ENTRADA (PUT)
             CreateMap<LivroAtualizarDTO, Livro>()
                 .ForMember(dest => dest.IdLivro, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.TituloLivro, opt => opt.MapFrom(src => src.Titulo))
@@ -64,15 +67,23 @@ namespace DesafioIIZetta.API.Mappings
                 .ForMember(dest => dest.QuantidadeEstoqueLivro, opt => opt.MapFrom(src => src.Estoque));
 
 
-            // 1. Saída: Ligar as propriedades das tabelas relacionadas aos nomes simples do DTO
+            // Ligar as propriedades das tabelas relacionadas aos nomes do DTO
             CreateMap<ClienteLivroEmprestimo, EmprestimoExibicaoDTO>()
                 .ForMember(dest => dest.NomeCliente, opt => opt.MapFrom(src => src.IdClienteNavigation.NomeCliente))
                 .ForMember(dest => dest.TituloLivro, opt => opt.MapFrom(src => src.IdLivroNavigation.TituloLivro));
 
-            // 2. Entrada: Calcular as datas automaticamente ao receber o DTO
+            //  Calcular as datas automaticamente ao receber o DTO
             CreateMap<EmprestimoAdicionarDTO, ClienteLivroEmprestimo>()
                 .ForMember(dest => dest.DataEmprestimo, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.DataDevolucaoPrevista, opt => opt.MapFrom(src => DateTime.Now.AddDays(src.DiasEmprestimo)));
+
+            CreateMap<UsuarioRegistroDTO, Usuario>();
+            CreateMap<UsuarioAcessoDTO, Usuario>();
+
+
+            CreateMap<Tarefa, TarefaExibicaoDTO>();
+            CreateMap<TarefaAdicionarDTO, Tarefa>();
+            CreateMap<TarefaAtualizarDTO, Tarefa>();
         }
     }
 }

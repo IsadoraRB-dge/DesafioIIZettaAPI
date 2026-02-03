@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using DesafioIIZetta.API.Models.Biblioteca;
+using DesafioIIZetta.API.Models.GestaoTarefas;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesafioIIZetta.API.Models;
@@ -10,6 +12,8 @@ public partial class ControleEmprestimoLivroContext : DbContext{
     public virtual DbSet<Cliente> Clientes { get; set; }
     public virtual DbSet<ClienteLivroEmprestimo> ClienteLivroEmprestimos { get; set; }
     public virtual DbSet<Livro> Livros { get; set; }
+    public virtual DbSet<Usuario> Usuarios { get; set; }
+    public virtual DbSet<Tarefa> Tarefas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
  
@@ -30,7 +34,15 @@ public partial class ControleEmprestimoLivroContext : DbContext{
         });
 
 
-        modelBuilder.Entity<Livro>(entity =>{
+        modelBuilder.Entity<Livro>(entity =>{});
+
+        modelBuilder.Entity<Tarefa>(entity =>
+        {
+            entity.HasOne(d => d.IdUsuarioNavigation)
+                .WithMany(p => p.Tarefas)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Tarefa_Usuario");
         });
 
         OnModelCreatingPartial(modelBuilder);
