@@ -1,48 +1,60 @@
-﻿using DesafioIIZetta.API.Interfaces;
+﻿using AutoMapper;
+using DesafioIIZetta.API.DTOs.Cliente;
+using DesafioIIZetta.API.Interfaces;
 using DesafioIIZetta.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioIIZetta.API.Controllers{
-
     [Route("api/[controller]")]
     [ApiController]
     public class ClienteController : ControllerBase{
         private readonly IClienteRepo _clienteRepo;
+        private readonly IMapper _mapper;
 
-        public ClienteController(IClienteRepo clienteRepo){
+        public ClienteController(IClienteRepo clienteRepo, IMapper mapper){
             _clienteRepo = clienteRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes(){
+        public async Task<ActionResult<IEnumerable<ClienteExibicaoDTO>>> GetClientes(){
             var clientes = await _clienteRepo.ListarTodosAsync();
-            return Ok(clientes);
+            var clientesDto = _mapper.Map<IEnumerable<ClienteExibicaoDTO>>(clientes);
+            return Ok(clientesDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cliente>> GetCliente(int id){
+        public async Task<ActionResult<ClienteDetalhesDTO>> GetCliente(int id){
             var cliente = await _clienteRepo.BuscarPorIdAsync(id);
-
             if (cliente == null){
                 return NotFound("Cliente não encontrado.");
             }
-
-            return Ok(cliente);
+            return Ok(_mapper.Map<ClienteDetalhesDTO>(cliente));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente){
+        public async Task<ActionResult<ClienteExibicaoDTO>> PostCliente(ClienteAdicionarDTO clienteDto){
+            var cliente = _mapper.Map<Cliente>(clienteDto);
             await _clienteRepo.AdicionarAsync(cliente);
-            return CreatedAtAction(nameof(GetCliente), new { id = cliente.IdCliente }, cliente);
+
+            var clienteRetorno = _mapper.Map<ClienteExibicaoDTO>(cliente);
+            return CreatedAtAction(nameof(GetCliente), new { id = cliente.IdCliente }, clienteRetorno);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCliente(int id, Cliente cliente){
-            if (id != cliente.IdCliente){
+        public async Task<IActionResult> PutCliente(int id, ClienteAtualizarDTO clienteDto){
+            if (id != clienteDto.Id){
                 return BadRequest("O ID enviado não corresponde ao ID do objeto.");
             }
+            var clienteBanco = await _clienteRepo.BuscarPorIdAsync(id);
 
-            await _clienteRepo.AtualizarAsync(cliente);
+            if (clienteBanco == null){
+                return NotFound("Cliente não encontrado para atualização.");
+            }
+            _mapper.Map(clienteDto, clienteBanco);
+
+            await _clienteRepo.AtualizarAsync(clienteBanco);
+
             return NoContent();
         }
 
@@ -52,7 +64,6 @@ namespace DesafioIIZetta.API.Controllers{
             if (cliente == null){
                 return NotFound();
             }
-
             await _clienteRepo.ExcluirAsync(id);
             return NoContent();
         }
