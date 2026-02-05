@@ -2,5 +2,9 @@
   <Folder Name="/Itens de Solução/">
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
   <Project Path="DesafioIIZetta.API/DesafioIIZetta.API.csproj" />
+  <Project Path="DesafioIIZetta.Tests/DesafioIIZetta.Tests.csproj" Id="39fc9ea5-490e-4d51-8489-7a4e424b553f" />
 </Solution>

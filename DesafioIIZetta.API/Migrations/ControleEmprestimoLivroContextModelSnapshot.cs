@@ -46,6 +46,9 @@ namespace DesafioIIZetta.API.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeCliente")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -57,6 +60,8 @@ namespace DesafioIIZetta.API.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("IdCliente");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Cliente");
                 });
@@ -84,11 +89,16 @@ namespace DesafioIIZetta.API.Migrations
                     b.Property<int>("IdLivro")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdCliente");
 
                     b.HasIndex("IdLivro");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Cliente_Livro_Emprestimo");
                 });
@@ -174,6 +184,9 @@ namespace DesafioIIZetta.API.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<int>("QuantidadeEstoqueLivro")
                         .HasColumnType("int");
 
@@ -184,7 +197,21 @@ namespace DesafioIIZetta.API.Migrations
 
                     b.HasKey("IdLivro");
 
+                    b.HasIndex("IdUsuario");
+
                     b.ToTable("Livro");
+                });
+
+            modelBuilder.Entity("DesafioIIZetta.API.Models.Biblioteca.Cliente", b =>
+                {
+                    b.HasOne("DesafioIIZetta.API.Models.GestaoTarefas.Usuario", "Usuario")
+                        .WithMany("Clientes")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Cliente_Usuario");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("DesafioIIZetta.API.Models.ClienteLivroEmprestimo", b =>
@@ -192,18 +219,28 @@ namespace DesafioIIZetta.API.Migrations
                     b.HasOne("DesafioIIZetta.API.Models.Biblioteca.Cliente", "IdClienteNavigation")
                         .WithMany("ClienteLivroEmprestimos")
                         .HasForeignKey("IdCliente")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_Cliente_Livro_Emprestimo_Cliente");
+                        .HasConstraintName("FK_Emprestimo_Cliente");
 
                     b.HasOne("DesafioIIZetta.API.Models.Livro", "IdLivroNavigation")
                         .WithMany("ClienteLivroEmprestimos")
                         .HasForeignKey("IdLivro")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DesafioIIZetta.API.Models.GestaoTarefas.Usuario", "UsuarioNavigation")
+                        .WithMany("Emprestimos")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_Cliente_Livro_Emprestimo_Livro");
+                        .HasConstraintName("FK_Emprestimo_Usuario");
 
                     b.Navigation("IdClienteNavigation");
 
                     b.Navigation("IdLivroNavigation");
+
+                    b.Navigation("UsuarioNavigation");
                 });
 
             modelBuilder.Entity("DesafioIIZetta.API.Models.GestaoTarefas.Tarefa", b =>
@@ -218,6 +255,18 @@ namespace DesafioIIZetta.API.Migrations
                     b.Navigation("IdUsuarioNavigation");
                 });
 
+            modelBuilder.Entity("DesafioIIZetta.API.Models.Livro", b =>
+                {
+                    b.HasOne("DesafioIIZetta.API.Models.GestaoTarefas.Usuario", "Usuario")
+                        .WithMany("Livros")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Livro_Usuario");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("DesafioIIZetta.API.Models.Biblioteca.Cliente", b =>
                 {
                     b.Navigation("ClienteLivroEmprestimos");
@@ -225,6 +274,12 @@ namespace DesafioIIZetta.API.Migrations
 
             modelBuilder.Entity("DesafioIIZetta.API.Models.GestaoTarefas.Usuario", b =>
                 {
+                    b.Navigation("Clientes");
+
+                    b.Navigation("Emprestimos");
+
+                    b.Navigation("Livros");
+
                     b.Navigation("Tarefas");
                 });
 

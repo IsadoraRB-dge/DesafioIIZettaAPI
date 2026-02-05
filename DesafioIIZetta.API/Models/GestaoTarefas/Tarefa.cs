@@ -1,6 +1,4 @@
-﻿#nullable disable
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DesafioIIZetta.API.Models.GestaoTarefas;
@@ -13,14 +11,14 @@ public partial class Tarefa{
 
     [Required]
     [StringLength(150)]
-    public string NomeTarefa { get; set; }
+    public required string NomeTarefa { get; set; }
 
     [Required]
     [StringLength(500)]
-    public string DescricaoTarefa { get; set; }
+    public required string DescricaoTarefa { get; set; }
 
     [Required]
-    public string StatusTarefa { get; set; } 
+    public required string StatusTarefa { get; set; } 
 
     [Required]
     public int IdUsuario { get; set; }
@@ -31,5 +29,5 @@ public partial class Tarefa{
 
     [ForeignKey("IdUsuario")]
     [InverseProperty("Tarefas")]
-    public virtual Usuario IdUsuarioNavigation { get; set; }
+    public required virtual Usuario IdUsuarioNavigation { get; set; }
 }

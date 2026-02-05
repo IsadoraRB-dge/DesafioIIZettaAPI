@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using DesafioIIZetta.API.Models.Biblioteca;
+﻿using DesafioIIZetta.API.Models.Biblioteca;
 using DesafioIIZetta.API.Models.GestaoTarefas;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesafioIIZetta.API.Models;
 
 public partial class ControleEmprestimoLivroContext : DbContext{
-    public ControleEmprestimoLivroContext(DbContextOptions<ControleEmprestimoLivroContext> options):base(options){
-    }
+    public ControleEmprestimoLivroContext(DbContextOptions<ControleEmprestimoLivroContext> options) : base(options) { }
+
     public virtual DbSet<Cliente> Clientes { get; set; }
     public virtual DbSet<ClienteLivroEmprestimo> ClienteLivroEmprestimos { get; set; }
     public virtual DbSet<Livro> Livros { get; set; }
@@ -16,28 +14,43 @@ public partial class ControleEmprestimoLivroContext : DbContext{
     public virtual DbSet<Tarefa> Tarefas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
- 
         modelBuilder.Entity<Cliente>(entity =>{
+            entity.HasOne(d => d.Usuario)
+                .WithMany(p => p.Clientes)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.Cascade) 
+                .HasConstraintName("FK_Cliente_Usuario");
+        });
+
+        modelBuilder.Entity<Livro>(entity =>{
+            entity.HasOne(d => d.Usuario)
+                .WithMany(p => p.Livros)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Livro_Usuario");
         });
 
         modelBuilder.Entity<ClienteLivroEmprestimo>(entity =>{
-          
             entity.HasOne(d => d.IdClienteNavigation)
                 .WithMany(p => p.ClienteLivroEmprestimos)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cliente_Livro_Emprestimo_Cliente");
+                .HasForeignKey(d => d.IdCliente)
+                .OnDelete(DeleteBehavior.Restrict) 
+                .HasConstraintName("FK_Emprestimo_Cliente");
 
             entity.HasOne(d => d.IdLivroNavigation)
                 .WithMany(p => p.ClienteLivroEmprestimos)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cliente_Livro_Emprestimo_Livro");
+                .HasForeignKey(d => d.IdLivro)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("FK_Emprestimo_Livro");
+
+            entity.HasOne(d => d.UsuarioNavigation)
+                .WithMany(p => p.Emprestimos)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Emprestimo_Usuario");
         });
 
-
-        modelBuilder.Entity<Livro>(entity =>{});
-
-        modelBuilder.Entity<Tarefa>(entity =>
-        {
+        modelBuilder.Entity<Tarefa>(entity =>{
             entity.HasOne(d => d.IdUsuarioNavigation)
                 .WithMany(p => p.Tarefas)
                 .HasForeignKey(d => d.IdUsuario)

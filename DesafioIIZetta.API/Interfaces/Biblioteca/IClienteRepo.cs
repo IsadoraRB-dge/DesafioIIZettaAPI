@@ -1,10 +1,9 @@
 ﻿using DesafioIIZetta.API.Interfaces.Biblioteca;
 using DesafioIIZetta.API.Models.Biblioteca;
 
-namespace DesafioIIZetta.API.Interfaces {
-
+namespace DesafioIIZetta.API.Interfaces{
     public interface IClienteRepo : IBaseRepo<Cliente>{
-
-        new Task<Cliente> BuscarPorIdAsync(int id);
+        Task<Cliente> BuscarPorCpfAsync(string cpf, int usuarioId);
+        Task<bool> ExisteCpfAsync(string cpf);
     }
 }

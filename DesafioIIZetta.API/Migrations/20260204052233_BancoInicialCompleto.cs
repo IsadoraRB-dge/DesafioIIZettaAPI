@@ -5,45 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DesafioIIZetta.API.Migrations
 {
-    /// <inheritdoc />
-    public partial class InitialCreate : Migration
+
+    public partial class BancoInicialCompleto : Migration
     {
-        /// <inheritdoc />
+    
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Cliente",
-                columns: table => new
-                {
-                    IdCliente = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeCliente = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    CPFCliente = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
-                    TelefoneCliente = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    EmailCliente = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    EnderecoCliente = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cliente", x => x.IdCliente);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Livro",
-                columns: table => new
-                {
-                    IdLivro = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TituloLivro = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    AutorLivro = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    AnoPublicacaoLivro = table.Column<int>(type: "int", nullable: false),
-                    QuantidadeEstoqueLivro = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Livro", x => x.IdLivro);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Usuario",
                 columns: table => new
@@ -60,30 +27,50 @@ namespace DesafioIIZetta.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cliente_Livro_Emprestimo",
+                name: "Cliente",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    IdCliente = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdCliente = table.Column<int>(type: "int", nullable: false),
-                    IdLivro = table.Column<int>(type: "int", nullable: false),
-                    DataEmprestimo = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DataDevolucaoPrevista = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DataDevolucaoReal = table.Column<DateTime>(type: "datetime", nullable: true)
+                    NomeCliente = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CPFCliente = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
+                    TelefoneCliente = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    EmailCliente = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EnderecoCliente = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente_Livro_Emprestimo", x => x.Id);
+                    table.PrimaryKey("PK_Cliente", x => x.IdCliente);
                     table.ForeignKey(
-                        name: "FK_Cliente_Livro_Emprestimo_Cliente",
-                        column: x => x.IdCliente,
-                        principalTable: "Cliente",
-                        principalColumn: "IdCliente");
+                        name: "FK_Cliente_Usuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "IdUsuario",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Livro",
+                columns: table => new
+                {
+                    IdLivro = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TituloLivro = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    AutorLivro = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    AnoPublicacaoLivro = table.Column<int>(type: "int", nullable: false),
+                    QuantidadeEstoqueLivro = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Livro", x => x.IdLivro);
                     table.ForeignKey(
-                        name: "FK_Cliente_Livro_Emprestimo_Livro",
-                        column: x => x.IdLivro,
-                        principalTable: "Livro",
-                        principalColumn: "IdLivro");
+                        name: "FK_Livro_Usuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "IdUsuario",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,6 +96,47 @@ namespace DesafioIIZetta.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cliente_Livro_Emprestimo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdCliente = table.Column<int>(type: "int", nullable: false),
+                    IdLivro = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    DataEmprestimo = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DataDevolucaoPrevista = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DataDevolucaoReal = table.Column<DateTime>(type: "datetime", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cliente_Livro_Emprestimo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cliente_Livro_Emprestimo_Livro_IdLivro",
+                        column: x => x.IdLivro,
+                        principalTable: "Livro",
+                        principalColumn: "IdLivro",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Emprestimo_Cliente",
+                        column: x => x.IdCliente,
+                        principalTable: "Cliente",
+                        principalColumn: "IdCliente",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Emprestimo_Usuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "IdUsuario",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cliente_IdUsuario",
+                table: "Cliente",
+                column: "IdUsuario");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Cliente_Livro_Emprestimo_IdCliente",
                 table: "Cliente_Livro_Emprestimo",
@@ -120,12 +148,21 @@ namespace DesafioIIZetta.API.Migrations
                 column: "IdLivro");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cliente_Livro_Emprestimo_IdUsuario",
+                table: "Cliente_Livro_Emprestimo",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Livro_IdUsuario",
+                table: "Livro",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tarefa_IdUsuario",
                 table: "Tarefa",
                 column: "IdUsuario");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -135,10 +172,10 @@ namespace DesafioIIZetta.API.Migrations
                 name: "Tarefa");
 
             migrationBuilder.DropTable(
-                name: "Cliente");
+                name: "Livro");
 
             migrationBuilder.DropTable(
-                name: "Livro");
+                name: "Cliente");
 
             migrationBuilder.DropTable(
                 name: "Usuario");
