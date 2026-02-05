@@ -4,7 +4,7 @@ namespace DesafioIIZetta.API.Interfaces{
     public interface ITarefaRepository{
         Task<IEnumerable<Tarefa>> ListarTarefasAsync(int usuarioId, string? status, string? prioridade);
 
-        Task<Tarefa?> BuscarPorIdAsync(int id, int usuarioId);
+        Task<Tarefa> BuscarPorIdAsync(int id, int usuarioId);
 
         Task AdicionarAsync(Tarefa tarefa);
 
