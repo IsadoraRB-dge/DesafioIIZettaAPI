@@ -1,0 +1,839 @@
+{
+  "info": {
+    "_postman_id": "3ddf35a7-974c-41e4-8a14-45e0e03a6824",
+    "name": "Biblioteca",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51907917",
+    "_collection_link": "https://go.postman.co/collection/51907917-3ddf35a7-974c-41e4-8a14-45e0e03a6824?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Cadastrar Usuario",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nomeUsuario\": \"Henrique\",\r\n    \"emailUsuario\": \"Henrique@amorzinho.com\",\r\n    \"senhaUsuario\": \"1234556\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Acesso/registrar",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Acesso",
+            "registrar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Acesso Usuario (Token)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nomeUsuario\": \"Rafaela@gmail\",\r\n    \"emailUsuario\": \"Rafaela@gmail.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Acesso/login",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Acesso",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cadastrar Cliente",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Genis\",\r\n    \"email\": \"Genis@gmail.com\",\r\n    \"cpf\": \"12345678901\",\r\n    \"telefone\": \"35999999999\",\r\n    \"endereco\": \"Rua da Biblioteca, 123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Cliente",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Cliente"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cadastrar Livro",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"titulo\": \"Elizabeth Linda\",\r\n    \"autor\": \"Isadora\",\r\n    \"ano\": 2022,\r\n    \"estoque\": 1000\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Livro",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Livro"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Realizar Emprestimo ",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"idCliente\": 2, \r\n  \"idLivro\": 3,\r\n  \"diasEmprestimo\": 10\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Emprestimo",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Emprestimo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cadastrar Tarefa",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nomeTarefa\": \"Organizar Devoluções\",\r\n  \"descricaoTarefa\": \"Verificar os livros que foram entregues na caixa de coleta e atualizar no sistema\",\r\n  \"statusTarefa\": \"Pendente\",\r\n  \"prioridade\": \"Alta\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/tarefas",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "tarefas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Clientes (Exibição)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ikxpbm4iLCJuYW1laWQiOiI1IiwibmJmIjoxNzcwMjM5NjQ5LCJleHAiOjE3NzAyNTA0NDksImlhdCI6MTc3MDIzOTY0OX0.RakHpejbamcvARbUR_sT6Kx_9M9mevR0xZD8oi69KXY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"idCliente\": 2, \r\n  \"idLivro\": 3,\r\n  \"diasEmprestimo\": 10\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Cliente",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Cliente"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Cliente por ID (Detalhes Cliente)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ikxpbm4iLCJuYW1laWQiOiI1IiwibmJmIjoxNzcwMjM5NjQ5LCJleHAiOjE3NzAyNTA0NDksImlhdCI6MTc3MDIzOTY0OX0.RakHpejbamcvARbUR_sT6Kx_9M9mevR0xZD8oi69KXY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7079/api/Cliente/4",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Cliente",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Cliente por CPF",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzIzMTcyLCJleHAiOjE3NzAzMzM5NzIsImlhdCI6MTc3MDMyMzE3Mn0.g3I8SqhVl3gNqNpian0YpHlHpWvNawG-_Nxb9RoFQmk",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7079/api/Cliente/buscar-por-cpf/12345679234",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Cliente",
+            "buscar-por-cpf",
+            "12345679234"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Emprestimos (Exibição)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"idCliente\": 2, \r\n  \"idLivro\": 3,\r\n  \"diasEmprestimo\": 10\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Emprestimo",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Emprestimo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Livro ( Exibição)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"idCliente\": 2, \r\n  \"idLivro\": 3,\r\n  \"diasEmprestimo\": 10\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Livro",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Livro"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Tarefas (Exibição)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nomeTarefa\": \"Organizar Devoluções\",\r\n  \"descricaoTarefa\": \"Verificar os livros que foram entregues na caixa de coleta e atualizar no sistema\",\r\n  \"statusTarefa\": \"Pendente\",\r\n  \"prioridade\": \"Alta\"\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/tarefas",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "tarefas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Tarefas por Status",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nomeTarefa\": \"Organizar Devoluções\",\r\n  \"descricaoTarefa\": \"Verificar os livros que foram entregues na caixa de coleta e atualizar no sistema\",\r\n  \"statusTarefa\": \"Pendente\",\r\n  \"prioridade\": \"Alta\"\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/tarefas?status=Pendente&prioridade=Alta",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "tarefas"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "Pendente"
+            },
+            {
+              "key": "prioridade",
+              "value": "Alta"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Tarefas por Prioridade",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7079/api/tarefas?Prioridade=Média",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "tarefas"
+          ],
+          "query": [
+            {
+              "key": "Prioridade",
+              "value": "Média"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Atualizar Dados Cliente Por ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 9,\r\n    \"nome\": \"Isabela Rocha\",\r\n    \"email\": \"Isabeça@gmail.com\",\r\n    \"cpf\": \"12345679237\",\r\n    \"telefone\": \"35994444444\",\r\n    \"endereco\": \"Rua das Margaridas, 423\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Cliente/9",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Cliente",
+            "9"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Atualizar Dados Livro Por ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 6,\r\n    \"titulo\": \"Animais das Praias \",\r\n    \"autor\": \"Familia Rocha\",\r\n    \"ano\": 2024,\r\n    \"estoque\": 12\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Livro/6",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Livro",
+            "6"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Atualizar Dados da Tarefa  Por ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n  \"nomeTarefa\": \"Limpeza banheiros\",\r\n  \"descricaoTarefa\": \"Realizar a manutenção semanal: Tirar pó, limpar espelhos, limpar o sanitário e varrer o chão\",\r\n  \"statusTarefa\": \"Concluida\",\r\n  \"prioridade\": \"Média\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Tarefas/5",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Tarefas",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Devolucao Livro",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkhlbnJpcXVlIiwibmFtZWlkIjoiMyIsIm5iZiI6MTc3MDIyNTA4MSwiZXhwIjoxNzcwMjM1ODgxLCJpYXQiOjE3NzAyMjUwODF9.tHfFgfktOOMXJdG8by3_98YAdjLBZjyDuvmryrFUn5E",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/emprestimo/devolver/3",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "emprestimo",
+            "devolver",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Adiar Devolução do Livro ( Renovar por n dias, o empréstimo) ",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"diasAdicionais\": 15\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/emprestimo/renovar/7",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "emprestimo",
+            "renovar",
+            "7"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remover Tarefa por ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nomeTarefa\": \"Organizar Devoluções\",\r\n  \"descricaoTarefa\": \"Verificar os livros que foram entregues na caixa de coleta e atualizar no sistema\",\r\n  \"statusTarefa\": \"Pendente\",\r\n  \"prioridade\": \"Alta\"\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/tarefas/6",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "tarefas",
+            "6"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remover Cliente Por ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nomeTarefa\": \"Organizar Devoluções\",\r\n  \"descricaoTarefa\": \"Verificar os livros que foram entregues na caixa de coleta e atualizar no sistema\",\r\n  \"statusTarefa\": \"Pendente\",\r\n  \"prioridade\": \"Alta\"\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Cliente/10",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Cliente",
+            "10"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remover Livro por ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklzYWRvcmEiLCJuYW1laWQiOiI2IiwibmJmIjoxNzcwMzA4NDUyLCJleHAiOjE3NzAzMTkyNTIsImlhdCI6MTc3MDMwODQ1Mn0.ibfiy_Ab9BC6aNdCsOsslP2aJggX8ZYOYE8ajDoS-UY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nomeTarefa\": \"Organizar Devoluções\",\r\n  \"descricaoTarefa\": \"Verificar os livros que foram entregues na caixa de coleta e atualizar no sistema\",\r\n  \"statusTarefa\": \"Pendente\",\r\n  \"prioridade\": \"Alta\"\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7079/api/Livro/8",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7079",
+          "path": [
+            "api",
+            "Livro",
+            "8"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
