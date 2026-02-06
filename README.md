@@ -19,11 +19,26 @@ O acesso à API é restrito e protegido. A segurança é baseada em dois pilares
 
 O projeto foi construído utilizando as versões mais recentes do ecossistema .NET, focando em performance e segurança:
 
-* **Framework:** .NET 10.0
-* **Banco de Dados:** SQL Server via Entity Framework Core 10
+* **Framework:** .NET 8.0
+* **Banco de Dados:** SQL Server via Entity Framework Core 8.0
 * **Segurança:** Autenticação JWT (Bearer) e criptografia de senhas com BCrypt.Net
 * **Mapeamento:** AutoMapper para conversão entre Entidades e DTOs
 * **Testes:** Entity Framework InMemory
+
+---
+
+## 🚀 Como Testar a API (Postman)
+
+Para facilitar a sua experiência de teste, disponibilizamos uma coleção completa do **Postman** com todas as rotas e payloads já configurados.
+
+📍 **Onde encontrar:** Vá até a pasta `Docs/` na raiz deste projeto.
+📄 **Arquivo:** `Biblioteca.postman_collection.json`
+
+**Como usar:**
+1. Abra o seu Postman.
+2. Clique no botão **Import**.
+3. Arraste o arquivo acima para o Postman.
+4. Pronto! Todas as rotas estarão prontas para uso, bastando apenas configurar a URL base do seu ambiente.
 
 ---
 
