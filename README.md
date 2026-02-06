@@ -29,161 +29,348 @@ O projeto foi construído utilizando as versões mais recentes do ecossistema .N
 
 ## 🟢 Endpoints da API
 
-### 🔑 Acesso e Identidade (`/api/Acesso`)
+## 🔐 1. GRUPO: ACESSO 
 
-Responsável por criar a conta do "Comandante da Biblioteca" e gerar o acesso seguro.
+### 1.1 Cadastrar Usuário
+- **POST** `/api/Acesso/registrar`
+- **Request (JSON):**
+```json
+{
+  "nomeUsuario": "Henrique",
+  "emailUsuario": "Henrique@amorzinho.com",
+  "senhaUsuario": "1234556"
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "message": "Usuário (Comandante da Biblioteca) registrado com sucesso!"
+}
+```
 
-* **POST /api/Acesso/registrar**
-  * Cria a conta do bibliotecário com senha criptografada.
-  * **Body (JSON):**
-    ```json
-    {
-        "nomeUsuario": "Isadora Rocha",
-        "emailUsuario": "Isadora@biblioteca.com",
-        "senhaUsuario": "Minhagataelinda"
-    }
-    ```
-
-* **POST /api/Acesso/login**
-  * Autentica e libera o Token JWT.
-  * **Body (JSON):**
-    ```json
-    {
-        "nomeUsuario": "Isadora Rocha",
-        "emailUsuario": "Isadora@biblioteca.com"
-    }
-    ```
-
----
-
-### 🚻 Clientes (`/api/Cliente`)
-
-Gestão completa dos clientes do bibliotecário.
-
-* **GET /api/Cliente | GET /api/Cliente/{id}**
-  * Lista todos os seus clientes ou busca um detalhado por ID.
-* **GET /api/Cliente/buscar-por-cpf/{cpf}**
-  * Busca rápida por documento (CPF).
-* **POST /api/Cliente**
-  * **Body (JSON):**
-    ```json
-    {
-        "nome": "Isabela Rocha",
-        "email": "isabela@email.com",
-        "cpf": "123.456.789-00",
-        "telefone": "35999999999",
-        "endereco": "Rua Central, 10"
-    }
-    ```
-* **PUT /api/Cliente/{id}**
-  * **Body (JSON):**
-    ```json
-    {
-        "id": 9,
-        "nome": "Isabela Rocha",
-        "email": "Isabela@gmail.com",
-        "cpf": "12345679237",
-        "telefone": "35994444444",
-        "endereco": "Rua das Margaridas, 423"
-    }
-    ```
-* **DELETE /api/Cliente/{id}**
-  * Remove o cliente se não houver restrições de vínculo (empréstimos ativos).
+### 1.2 Login (Acesso Usuário)
+- **POST** `/api/Acesso/login`
+- **Request (JSON):**
+```json
+{
+  "nomeUsuario": "Rafaela@gmail",
+  "emailUsuario": "Rafaela@gmail.com"
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "usuario": "Rafaela"
+}
+```
 
 ---
 
-### 📖 Livros (`/api/Livro`)
+## 👥 2. GRUPO: CLIENTES 
 
-Controle do acervo e disponibilidade física.
+### 2.1 Listar Todos os Clientes
+- **GET** `/api/Cliente`
+- **Response (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "nome": "Genis",
+    "email": "Genis@gmail.com",
+    "cpf": "12345678901",
+    "telefone": "35999999999",
+    "endereco": "Rua da Biblioteca, 123"
+  }
+]
+```
 
-* **GET /api/Livro**
-  * Lista os livros cadastrados na biblioteca.
-* **POST /api/Livro**
-  * **Body (JSON):**
-    ```json
-    {
-        "titulo": "Animais Marinhos",
-        "autor": "Familia Rocha",
-        "ano": 2024,
-        "estoque": 12
-    }
-    ```
-* **PUT /api/Livro/{id}**
-  * **Body (JSON):**
-    ```json
-    {
-        "id": 6,
-        "titulo": "Animais das Praias",
-        "autor": "Familia Rocha",
-        "ano": 2024,
-        "estoque": 12
-    }
-    ```
-* **DELETE /api/Livro/{id}**
-  * Remove o livro do acervo se não houver restrições de vínculo.
+### 2.2 Cadastrar Novo Cliente
+- **POST** `/api/Cliente`
+- **Request (JSON):**
+```json
+{
+  "nome": "Genis",
+  "email": "Genis@gmail.com",
+  "cpf": "12345678901",
+  "telefone": "35999999999",
+  "endereco": "Rua da Biblioteca, 123"
+}
+```
+- **Response (201 Created):**
+```json
+{
+  "id": 4,
+  "nome": "Genis",
+  "cpf": "12345678901",
+  "status": "Cliente criado com sucesso"
+}
+```
+
+### 2.3 Listar Cliente por ID
+- **GET** `/api/Cliente/4`
+- **Response (200 OK):**
+```json
+{
+  "id": 4,
+  "nome": "Genis",
+  "cpf": "12345678901",
+  "email": "Genis@gmail.com",
+  "endereco": "Rua da Biblioteca, 123"
+}
+```
+
+### 2.4 Listar Cliente por CPF
+- **GET** `/api/Cliente/buscar-por-cpf/12345679234`
+- **Response (200 OK):**
+```json
+{
+  "id": 5,
+  "nome": "Exemplo",
+  "cpf": "12345679234",
+  "email": "exemplo@gmail.com"
+}
+```
+
+### 2.5 Atualizar Dados do Cliente
+- **PUT** `/api/Cliente/9`
+- **Request (JSON):**
+```json
+{
+  "id": 9,
+  "nome": "Isabela Rocha",
+  "email": "Isabela@gmail.com",
+  "cpf": "12345679237",
+  "telefone": "35994444444",
+  "endereco": "Rua das Margaridas, 423"
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "id": 9,
+  "status": "Atualizado com sucesso",
+  "updatedAt": "2024-05-10T14:30:00Z"
+}
+```
+
+### 2.6 Remover Cliente por ID
+- **DELETE** `/api/Cliente/10`
+- **Response (204 No Content):** `{}`
 
 ---
 
-### 📑 Empréstimos (`/api/Emprestimo`)
+## 📚 3. GRUPO: LIVROS
 
-A inteligência do sistema e controle de estoque.
+### 3.1 Listar Todos os Livros
+- **GET** `/api/Livro`
+- **Response (200 OK):**
+```json
+[
+  {
+    "idLivro": 1,
+    "titulo": "Elizabeth Linda",
+    "autor": "Isadora",
+    "ano": 2022,
+    "estoque": 1000
+  }
+]
+```
 
-* **POST /api/Emprestimo**
-  * Registra saída e reduz estoque automaticamente.
-  * **Body (JSON):**
-    ```json
-    {
-        "idCliente": 9, 
-        "idLivro": 6,
-        "diasEmprestimo": 15
-    }
-    ```
-* **PATCH /api/Emprestimo/renovar/{id}**
-  * Aumenta o prazo de entrega para o cliente.
-  * **Body (JSON):**
-    ```json
-    {
-        "diasAdicionais": 7
-    }
-    ```
-* **PATCH /api/Emprestimo/devolver/{id}**
-  * Finaliza um empréstimo e processa o retorno do livro ao estoque (+1).
-  * Verifica se houve atraso através do serviço de multas (`IMultaService`).
-  * **Body (JSON):**
-    ```json
-    {
-        "dataDevolucaoManual": "2024-05-20T14:30:00"
-    }
-    ```
+### 3.2 Cadastrar Livro
+- **POST** `/api/Livro`
+- **Request (JSON):**
+```json
+{
+  "titulo": "Elizabeth Linda",
+  "autor": "Isadora",
+  "ano": 2022,
+  "estoque": 1000
+}
+```
+- **Response (201 Created):**
+```json
+{
+  "idLivro": 10,
+  "titulo": "Elizabeth Linda",
+  "status": "Cadastrado"
+}
+```
+
+### 3.3 Listar Livro por ID
+- **GET** `/api/Livro/3`
+- **Response (200 OK):**
+```json
+{
+  "idLivro": 3,
+  "titulo": "O Hobbit",
+  "autor": "J.R.R. Tolkien",
+  "ano": 1937,
+  "estoque": 5
+}
+```
+
+### 3.4 Atualizar Dados do Livro
+- **PUT** `/api/Livro/6`
+- **Request (JSON):**
+```json
+{
+  "id": 6,
+  "titulo": "Animais das Praias",
+  "autor": "Familia Rocha",
+  "ano": 2024,
+  "estoque": 12
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "id": 6,
+  "message": "Livro atualizado com sucesso"
+}
+```
+
+### 3.5 Remover Livro por ID
+- **DELETE** `/api/Livro/8`
+- **Response (204 No Content):** `{}`
 
 ---
 
-### 🧹 Gestão de Tarefas (`/api/Tarefas`)
+## 🔄 4. GRUPO: EMPRÉSTIMOS 
 
-Organização pessoal da rotina administrativa do bibliotecário.
+### 4.1 Realizar Empréstimo
+- **POST** `/api/Emprestimo`
+- **Request (JSON):**
+```json
+{
+  "idCliente": 2,
+  "idLivro": 3,
+  "diasEmprestimo": 10
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "idEmprestimo": 15,
+  "mensagem": "Empréstimo realizado com sucesso!",
+  "dataDevolucao": "2024-05-20T10:00:00Z"
+}
+```
 
-* **GET /api/Tarefas**
-  * Suporta filtros via Query String (Ex: `/api/Tarefas?status=Pendente&prioridade=Alta`).
-* **POST /api/Tarefas**
-  * **Body (JSON):**
-    ```json
-    {
-        "nomeTarefa": "Limpeza",
-        "descricaoTarefa": "Realizar a manutenção semanal: Tirar pó, limpar espelhos, limpar o sanitário",
-        "statusTarefa": "Concluida",
-        "prioridade": "Média"
-    }
-    ```
-* **PUT /api/Tarefas/{id}**
-  * **Body (JSON):**
-    ```json
-    {	
-        "idTarefa": 3,
-        "nomeTarefa": "Limpeza Banheiro",
-        "descricaoTarefa": "Realizar a manutenção semanal",
-        "statusTarefa": "Concluida",
-        "prioridade": "Média"
-    }
-    ```
-* **DELETE /api/Tarefas/{id}**
-  * Remove permanentemente uma tarefa da lista do bibliotecário.
+### 4.2 Listar Meus Empréstimos
+- **GET** `/api/Emprestimo`
+- **Response (200 OK):**
+```json
+[
+  {
+    "idEmprestimo": 15,
+    "idLivro": 3,
+    "status": "Ativo",
+    "dataEmprestimo": "2024-05-10T10:00:00Z"
+  }
+]
+```
+
+### 4.3 Devolução de Livro (Finalizar)
+- **PATCH** `/api/emprestimo/devolver/3`
+- **Response (200 OK):**
+```json
+{
+  "mensagem": "Livro devolvido com sucesso!",
+  "dataDevolucaoReal": "2024-05-15T09:00:00Z"
+}
+```
+
+### 4.4 Adiar/Renovar Empréstimo
+- **PATCH** `/api/emprestimo/renovar/7`
+- **Request (JSON):**
+```json
+{
+  "diasAdicionais": 15
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "idEmprestimo": 7,
+  "novaDataDevolucao": "2024-06-04T10:00:00Z",
+  "status": "Prazo renovado"
+}
+```
+
+---
+
+## 📝 5. GRUPO: TAREFAS 
+
+### 5.1 Listar Todas as Tarefas
+- **GET** `/api/tarefas`
+- **Response (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "nomeTarefa": "Limpeza Geral",
+    "statusTarefa": "Pendente",
+    "prioridade": "Média"
+  }
+]
+```
+
+### 5.2 Cadastrar Tarefa
+- **POST** `/api/tarefas`
+- **Request (JSON):**
+```json
+{
+  "nomeTarefa": "Organizar Devoluções",
+  "descricaoTarefa": "Verificar os livros que foram entregues na caixa de coleta",
+  "statusTarefa": "Pendente",
+  "prioridade": "Alta"
+}
+```
+- **Response (201 Created):**
+```json
+{
+  "id": 5,
+  "nomeTarefa": "Organizar Devoluções",
+  "status": "Tarefa criada com sucesso"
+}
+```
+
+### 5.3 Listar Tarefas com Filtro (Status e Prioridade)
+- **GET** `/api/tarefas?status=Pendente&prioridade=Alta`
+- **Response (200 OK):**
+```json
+[
+  {
+    "id": 5,
+    "nomeTarefa": "Organizar Devoluções",
+    "statusTarefa": "Pendente",
+    "prioridade": "Alta"
+  }
+]
+```
+
+### 5.4 Atualizar Tarefa
+- **PUT** `/api/Tarefas/5`
+- **Request (JSON):**
+```json
+{
+  "nomeTarefa": "Limpeza banheiros",
+  "descricaoTarefa": "Realizar manutenção completa semanal",
+  "statusTarefa": "Concluida",
+  "prioridade": "Média"
+}
+```
+- **Response (200 OK):**
+```json
+{
+  "id": 5,
+  "status": "Tarefa atualizada com sucesso"
+}
+```
+
+### 5.5 Remover Tarefa por ID
+- **DELETE** `/api/tarefas/6`
+- **Response (204 No Content):** `{}`
+
+
